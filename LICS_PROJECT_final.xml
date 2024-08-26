@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan Logout;
+chan Logout1;
+chan Logout2;
+chan Logout3;
+chan Logout4;
+chan Logout5;
+chan Authentication_Successful;
+chan Authentication_Failed;
+chan Return;
+chan Return1;
+chan Return2;
+chan Return3;
+chan Return4;
+chan Return5;
+chan Return6;
+chan Return7;
+chan Return8;
+chan Return9;
+chan TryAgain;
+chan DoesNotHaveAMembership;
+chan HasAMembership;
+chan BuyGold_Membership;
+chan BuyPlatinum_Membership;
+chan ConfirmGold_Membership;
+chan ConfirmPlatinum_Membership;
+chan Timeout;
+chan back;
+chan back1;
+chan Searching;
+chan SignIn;
+chan ViewHistory;
+chan Issue_Book;
+chan Confirm;
+chan Upgrade;
+chan CancelledByBank;
+chan SelectMode;
+chan NotifyUser;
+chan SufficientBalance;
+chan BuyMembership;
+chan Search;
+chan Back;
+chan Back1;
+chan UpgradeToPlatinum;
+chan AuthenticationSuccessful;
+chan TransactionSuccessful;
+chan InsufficientBalance;
+chan PurchaseSuccessful;
+chan PurchaseCancelled;
+chan ModeSelected;
+int z=100;
+int x=20;
+int y=40;
+
+
+
+</declaration>
+	<template>
+		<name>Bank_System</name>
+		<location id="id0" x="-1164" y="-246">
+			<name x="-1300" y="-255">AccountBalance</name>
+			<label kind="invariant" x="-1207" y="-221">z</label>
+		</location>
+		<location id="id1" x="-816" y="-246">
+			<name x="-826" y="-280">ModeOfPayment</name>
+		</location>
+		<location id="id2" x="-1146" y="102">
+			<name x="-1122" y="93">TransactionFailed</name>
+		</location>
+		<location id="id3" x="-977" y="-493">
+			<name x="-1071" y="-535">TransactionSuccessful</name>
+		</location>
+		<location id="id4" x="-1207" y="-493">
+			<name x="-1217" y="-527">SMS</name>
+		</location>
+		<location id="id5" x="-1020" y="-357">
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition id="id6">
+			<source ref="id5"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-1003" y="-272">ModeSelected!</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id0"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-1164" y="-340">SelectMode?</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-901" y="-34">z&lt;40 or z&lt;20</label>
+			<label kind="synchronisation" x="-926" y="-76">InsufficientBalance!</label>
+		</transition>
+		<transition id="id9">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-850" y="-374">z&gt;=40 or z&gt;=20</label>
+			<label kind="synchronisation" x="-909" y="-416">SufficientBalance!</label>
+		</transition>
+		<transition id="id10">
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1249" y="-382">back1!</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1147" y="-510">NotifyUser!</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-1207" y="-102">back!</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Library_System</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id13" x="-603" y="17">
+			<name x="-629" y="42">Ideal</name>
+		</location>
+		<location id="id14" x="-442" y="-331">
+			<name x="-452" y="-365">UserSignedIn</name>
+		</location>
+		<location id="id15" x="-178" y="-212">
+			<name x="-188" y="-246">Buy_Membership</name>
+		</location>
+		<location id="id16" x="-280" y="-68">
+			<name x="-290" y="-102">View_Membership</name>
+		</location>
+		<location id="id17" x="-289" y="195">
+			<name x="-280" y="161">Log_out</name>
+		</location>
+		<location id="id18" x="-102" y="-510">
+			<name x="-170" y="-561">Platinum_Membership</name>
+			<label kind="invariant" x="-144" y="-535">x</label>
+		</location>
+		<location id="id19" x="144" y="-425">
+			<name x="85" y="-459">Gold_Membership</name>
+			<label kind="invariant" x="134" y="-408">y</label>
+		</location>
+		<location id="id20" x="178" y="-731">
+			<name x="168" y="-765">Payment</name>
+		</location>
+		<location id="id21" x="238" y="153">
+			<name x="263" y="144">Purchase_Cancelled</name>
+		</location>
+		<location id="id22" x="561" y="-170">
+			<name x="551" y="-204">SuccessfulPurchase</name>
+		</location>
+		<location id="id23" x="-646" y="-620">
+			<name x="-656" y="-654">Search_Results</name>
+		</location>
+		<location id="id24" x="-212" y="-697">
+			<name x="-222" y="-731">Confirm_Issue</name>
+		</location>
+		<location id="id25" x="161" y="-943">
+			<name x="151" y="-977">My_Books</name>
+		</location>
+		<location id="id26" x="85" y="144">
+			<name x="17" y="153">Membership_History</name>
+		</location>
+		<location id="id27" x="229" y="-272">
+			<name x="219" y="-306">WantToUpgrade</name>
+		</location>
+		<location id="id28" x="323" y="-493">
+			<name x="323" y="-527">ModeOfPayment</name>
+		</location>
+		<location id="id29" x="374" y="17">
+			<name x="357" y="34">Cancelled_ByBank</name>
+		</location>
+		<init ref="id13"/>
+		<transition id="id30">
+			<source ref="id13"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-773" y="-110">Authentication_Failed?</label>
+			<nail x="-688" y="-93"/>
+			<nail x="-688" y="85"/>
+		</transition>
+		<transition id="id31">
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-714" y="-246">Authentication_Successful?</label>
+		</transition>
+		<transition id="id32">
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="374" y="-110">PurchaseCancelled?</label>
+		</transition>
+		<transition id="id33">
+			<source ref="id28"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="450" y="-365">PurchaseSuccessful?</label>
+		</transition>
+		<transition id="id34">
+			<source ref="id29"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="306" y="76">CancelledByBank?</label>
+		</transition>
+		<transition id="id35">
+			<source ref="id20"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="280" y="-612">ModeSelected?</label>
+		</transition>
+		<transition id="id36">
+			<source ref="id27"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-8" y="-119">Return9?</label>
+			<nail x="17" y="-76"/>
+		</transition>
+		<transition id="id37">
+			<source ref="id27"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-85" y="-442">UpgradeToPlatinum?</label>
+		</transition>
+		<transition id="id38">
+			<source ref="id16"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-68" y="-187">Upgrade?</label>
+		</transition>
+		<transition id="id39">
+			<source ref="id26"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-76" y="-8">Return8?</label>
+			<nail x="-102" y="-25"/>
+		</transition>
+		<transition id="id40">
+			<source ref="id26"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-102" y="144">Logout5?</label>
+		</transition>
+		<transition id="id41">
+			<source ref="id16"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-212" y="8">ViewHistory?</label>
+		</transition>
+		<transition id="id42">
+			<source ref="id23"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-714" y="-476">Return7?</label>
+			<nail x="-637" y="-408"/>
+		</transition>
+		<transition id="id43">
+			<source ref="id25"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-306" y="-561">Return6?</label>
+		</transition>
+		<transition id="id44">
+			<source ref="id25"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-459" y="-850">Return4?</label>
+			<nail x="-748" y="-739"/>
+		</transition>
+		<transition id="id45">
+			<source ref="id25"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="467" y="-714">Logout4?</label>
+			<nail x="654" y="-501"/>
+			<nail x="663" y="187"/>
+		</transition>
+		<transition id="id46">
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-119" y="-824">Confirm?</label>
+		</transition>
+		<transition id="id47">
+			<source ref="id24"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-450" y="-637">Return5?</label>
+			<nail x="-399" y="-603"/>
+		</transition>
+		<transition id="id48">
+			<source ref="id23"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-823" y="-535">Logout3?</label>
+			<nail x="-841" y="-416"/>
+			<nail x="-841" y="178"/>
+		</transition>
+		<transition id="id49">
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-467" y="-688">Issue_Book?</label>
+		</transition>
+		<transition id="id50">
+			<source ref="id23"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-476" y="-493">BuyMembership?</label>
+		</transition>
+		<transition id="id51">
+			<source ref="id14"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-603" y="-467">Search?</label>
+		</transition>
+		<transition id="id52">
+			<source ref="id22"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="561" y="42">Logout2?</label>
+			<nail x="552" y="153"/>
+		</transition>
+		<transition id="id53">
+			<source ref="id21"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="17" y="-51">TryAgain?</label>
+			<nail x="203" y="93"/>
+		</transition>
+		<transition id="id54">
+			<source ref="id18"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-221" y="-450">Return3?</label>
+			<nail x="-187" y="-357"/>
+		</transition>
+		<transition id="id55">
+			<source ref="id19"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-17" y="-289">Return2?</label>
+			<nail x="42" y="-246"/>
+		</transition>
+		<transition id="id56">
+			<source ref="id19"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="51" y="-518">ConfirmGold_Membership?</label>
+		</transition>
+		<transition id="id57">
+			<source ref="id18"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-102" y="-637">ConfirmPlatinum_Membership?</label>
+		</transition>
+		<transition id="id58">
+			<source ref="id15"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-110" y="-323">BuyGold_Membership?</label>
+		</transition>
+		<transition id="id59">
+			<source ref="id15"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-161" y="-382">BuyPlatinum_Membership?</label>
+		</transition>
+		<transition id="id60">
+			<source ref="id14"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-697" y="-334">Logout?</label>
+			<nail x="-816" y="-306"/>
+			<nail x="-799" y="144"/>
+		</transition>
+		<transition id="id61">
+			<source ref="id16"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-442" y="-136">Return1?</label>
+			<nail x="-382" y="-153"/>
+		</transition>
+		<transition id="id62">
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-382" y="-340">Return?</label>
+			<nail x="-297" y="-297"/>
+		</transition>
+		<transition id="id63">
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-272" y="42">Logout1?</label>
+		</transition>
+		<transition id="id64">
+			<source ref="id17"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-501" y="51">Timeout?</label>
+		</transition>
+		<transition id="id65">
+			<source ref="id14"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-331" y="-161">HasAMembership?</label>
+		</transition>
+		<transition id="id66">
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-399" y="-229">DoesNotHaveAMembership?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Human_System</name>
+		<location id="id67" x="-493" y="51">
+			<name x="-503" y="17">Start</name>
+		</location>
+		<location id="id68" x="-510" y="-297">
+			<name x="-612" y="-280">Signed_In</name>
+		</location>
+		<location id="id69" x="8" y="-144">
+			<name x="-153" y="-127">Viewing_Membership</name>
+		</location>
+		<location id="id70" x="-323" y="-629">
+			<name x="-399" y="-731">Buying_Membership</name>
+		</location>
+		<location id="id71" x="34" y="-714">
+			<name x="-68" y="-748">SelectsPlatinumMembership</name>
+		</location>
+		<location id="id72" x="-34" y="-952">
+			<name x="-44" y="-986">SelectaGoldMembership</name>
+		</location>
+		<location id="id73" x="382" y="-731">
+			<name x="348" y="-782">ConfirmMembership</name>
+		</location>
+		<location id="id74" x="841" y="-136">
+			<name x="884" y="-161">PaymentAccepted</name>
+		</location>
+		<location id="id75" x="93" y="68">
+			<name x="83" y="34">Log_out</name>
+		</location>
+		<location id="id76" x="348" y="-110">
+			<name x="338" y="-144">Viewing_History</name>
+		</location>
+		<location id="id77" x="-578" y="-926">
+			<name x="-646" y="-960">Searching_Results</name>
+		</location>
+		<location id="id78" x="-323" y="-952">
+			<name x="-333" y="-986">Confirming_Issue</name>
+		</location>
+		<location id="id79" x="-170" y="-1088">
+			<name x="-180" y="-1122">My_Books</name>
+		</location>
+		<location id="id80" x="76" y="-510">
+			<name x="66" y="-544">Upgrading</name>
+		</location>
+		<location id="id81" x="637" y="-697">
+			<name x="627" y="-731">ModeOfPayment</name>
+		</location>
+		<location id="id82" x="807" y="17">
+			<name x="841" y="25">SMS_Received</name>
+		</location>
+		<location id="id83" x="612" y="-144">
+			<name x="570" y="-119">PaymentRejected</name>
+		</location>
+		<location id="id84" x="1266" y="-93">
+			<name x="1256" y="-127">Purchase_Cancelled</name>
+		</location>
+		<location id="id85" x="816" y="-357">
+			<name x="806" y="-391">Sufficient_Balance</name>
+			<committed/>
+		</location>
+		<location id="id86" x="1156" y="-348">
+			<name x="1146" y="-382">Insufficient_Balance</name>
+			<committed/>
+		</location>
+		<location id="id87" x="527" y="42">
+			<committed/>
+		</location>
+		<location id="id88" x="255" y="-255">
+			<committed/>
+		</location>
+		<init ref="id67"/>
+		<transition id="id89">
+			<source ref="id88"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-204" y="-493">TryAgain!</label>
+		</transition>
+		<transition id="id90">
+			<source ref="id83"/>
+			<target ref="id88"/>
+			<label kind="synchronisation" x="273" y="-216">back?</label>
+		</transition>
+		<transition id="id91">
+			<source ref="id87"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="246" y="25">Logout2!</label>
+		</transition>
+		<transition id="id92">
+			<source ref="id82"/>
+			<target ref="id87"/>
+			<label kind="synchronisation" x="603" y="8">back1?</label>
+		</transition>
+		<transition id="id93">
+			<source ref="id67"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-816" y="-136">Authentication_Failed!</label>
+			<nail x="-697" y="-8"/>
+			<nail x="-688" y="-110"/>
+		</transition>
+		<transition id="id94">
+			<source ref="id67"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-501" y="-140">Authentication_Successful!</label>
+		</transition>
+		<transition id="id95">
+			<source ref="id85"/>
+			<target ref="id74"/>
+			<label kind="synchronisation" x="828" y="-263">PurchaseSuccessful!</label>
+		</transition>
+		<transition id="id96">
+			<source ref="id86"/>
+			<target ref="id84"/>
+			<label kind="synchronisation" x="1258" y="-255">PurchaseCancelled!</label>
+		</transition>
+		<transition id="id97">
+			<source ref="id81"/>
+			<target ref="id86"/>
+			<label kind="synchronisation" x="833" y="-578">InsufficientBalance?</label>
+		</transition>
+		<transition id="id98">
+			<source ref="id81"/>
+			<target ref="id85"/>
+			<label kind="synchronisation" x="603" y="-459">SufficientBalance?</label>
+		</transition>
+		<transition id="id99">
+			<source ref="id84"/>
+			<target ref="id83"/>
+			<label kind="synchronisation" x="1020" y="-42">CancelledByBank!</label>
+		</transition>
+		<transition id="id100">
+			<source ref="id74"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="850" y="-102">NotifyUser?</label>
+		</transition>
+		<transition id="id101">
+			<source ref="id73"/>
+			<target ref="id81"/>
+			<label kind="synchronisation" x="467" y="-680">SelectMode!</label>
+		</transition>
+		<transition id="id102">
+			<source ref="id69"/>
+			<target ref="id80"/>
+			<label kind="synchronisation" x="144" y="-382">Upgrade!</label>
+			<nail x="204" y="-331"/>
+		</transition>
+		<transition id="id103">
+			<source ref="id80"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="85" y="-612">UpgradeToPlatinum!</label>
+		</transition>
+		<transition id="id104">
+			<source ref="id80"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="25" y="-408">Return9!</label>
+		</transition>
+		<transition id="id105">
+			<source ref="id79"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="110" y="-1113">Logout4!</label>
+			<nail x="1462" y="-1079"/>
+			<nail x="1513" y="119"/>
+			<nail x="195" y="93"/>
+		</transition>
+		<transition id="id106">
+			<source ref="id78"/>
+			<target ref="id79"/>
+			<label kind="synchronisation" x="-229" y="-1028">Confirm!</label>
+		</transition>
+		<transition id="id107">
+			<source ref="id79"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-628" y="-1096">Return6!</label>
+			<nail x="-646" y="-1071"/>
+			<nail x="-629" y="-297"/>
+		</transition>
+		<transition id="id108">
+			<source ref="id79"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="-433" y="-1037">Return4!</label>
+		</transition>
+		<transition id="id109">
+			<source ref="id78"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="-450" y="-918">Return5!</label>
+			<nail x="-399" y="-875"/>
+		</transition>
+		<transition id="id110">
+			<source ref="id77"/>
+			<target ref="id78"/>
+			<label kind="synchronisation" x="-450" y="-969">Issue_Book!</label>
+		</transition>
+		<transition id="id111">
+			<source ref="id68"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="-493" y="-586">Search!</label>
+			<nail x="-416" y="-586"/>
+		</transition>
+		<transition id="id112">
+			<source ref="id77"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-425" y="-773">BuyMembership!</label>
+		</transition>
+		<transition id="id113">
+			<source ref="id77"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-612" y="-544">Return7!</label>
+		</transition>
+		<transition id="id114">
+			<source ref="id77"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="-1012" y="42">Logout3!</label>
+			<nail x="-1258" y="-961"/>
+			<nail x="-1190" y="76"/>
+		</transition>
+		<transition id="id115">
+			<source ref="id76"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="187" y="-178">Return8!</label>
+			<nail x="204" y="-161"/>
+		</transition>
+		<transition id="id116">
+			<source ref="id69"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="119" y="-119">ViewHistory!</label>
+		</transition>
+		<transition id="id117">
+			<source ref="id76"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="255" y="-42">Logout5!</label>
+		</transition>
+		<transition id="id118">
+			<source ref="id69"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="59" y="-59">Logout1!</label>
+		</transition>
+		<transition id="id119">
+			<source ref="id68"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="-170" y="-42">Logout!</label>
+		</transition>
+		<transition id="id120">
+			<source ref="id75"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-323" y="17">Timeout!</label>
+		</transition>
+		<transition id="id121">
+			<source ref="id72"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="85" y="-892">ConfirmGold_Membership!</label>
+		</transition>
+		<transition id="id122">
+			<source ref="id71"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="110" y="-688">ConfirmPlatinum_Membership!</label>
+		</transition>
+		<transition id="id123">
+			<source ref="id71"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-144" y="-595">Return2!</label>
+			<nail x="-103" y="-548"/>
+		</transition>
+		<transition id="id124">
+			<source ref="id72"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-127" y="-782">Return3!</label>
+			<nail x="-154" y="-752"/>
+		</transition>
+		<transition id="id125">
+			<source ref="id70"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-238" y="-646">BuyPlatinum_Membership!</label>
+		</transition>
+		<transition id="id126">
+			<source ref="id70"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="-323" y="-841">BuyGold_Membership!</label>
+		</transition>
+		<transition id="id127">
+			<source ref="id69"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-288" y="-323">Return1!</label>
+			<nail x="-170" y="-289"/>
+		</transition>
+		<transition id="id128">
+			<source ref="id70"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-364" y="-437">Return!</label>
+			<nail x="-382" y="-391"/>
+		</transition>
+		<transition id="id129">
+			<source ref="id68"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-867" y="-510">DoesNotHaveAMembership!</label>
+		</transition>
+		<transition id="id130">
+			<source ref="id68"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-272" y="-255">HasAMembership!</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+ls = Library_System();
+hs = Human_System();
+bs = Bank_System();
+// List one or more processes to be composed into a system.
+system ls,hs,bs;
+
+
+</system>
+	<queries>
+		<query>
+			<formula>A[](bs.AccountBalance&gt;=0)
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-12-01 00:18:17 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A[]!(bs.TransactionSuccessful and bs.TransactionFailed)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-12-01 00:18:19 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt;(  bs.AccountBalance&gt;0==false imply !bs.TransactionSuccessful)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-12-01 00:18:21 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt;(  bs.AccountBalance&gt;0==false imply bs.TransactionFailed)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:49 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A[]!(ls.SuccessfulPurchase and ls.Purchase_Cancelled)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:50 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A[]!(ls.UserSignedIn and ls.Log_out)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:51 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt;(ls.Payment imply ls.SuccessfulPurchase or ls.Purchase_Cancelled)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:53 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt;(ls.SuccessfulPurchase imply ls.Log_out)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:36 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A[]!(hs.PaymentAccepted and hs.PaymentRejected)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:37 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A[]!(hs.Signed_In and hs.Log_out)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:39 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt;(hs.ConfirmMembership imply hs.PaymentAccepted or hs.PaymentRejected)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:40 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt;(hs.PaymentAccepted imply hs.Log_out)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:41 +0530">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-11-30 17:38:43 +0530">
+			</result>
+		</query>
+	</queries>
+</nta>
